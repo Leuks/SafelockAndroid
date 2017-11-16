@@ -5,4 +5,7 @@
     <string name="tv_connect">Connexion</string>
     <string name="tv_no_account">Créer un compte</string>
     <string name="tv_have_account">J\'ai déjà un compte</string>
+    <string name="user_created">Utilisateur crée!</string>
+    <string name="user_already_exists">Utilisateur existant</string>
+    <string name="user_wrong">Login / Mot de passe incorect</string>
 </resources>
