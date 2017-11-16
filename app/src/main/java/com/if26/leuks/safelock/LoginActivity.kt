@@ -1,5 +1,6 @@
 package com.if26.leuks.safelock
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -18,5 +19,10 @@ class LoginActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_login)
 
+        tv_no_account.setOnClickListener {
+            val intent = Intent(this, NewAccountActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
