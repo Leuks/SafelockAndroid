@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.if26.leuks.safelock.db.entities.Link;
-import com.if26.leuks.safelock.db.entities.User;
-import com.if26.leuks.safelock.db.entities.WebSite;
+import com.if26.leuks.safelock.db.entitie.Link;
+import com.if26.leuks.safelock.db.entitie.User;
+import com.if26.leuks.safelock.db.entitie.WebSite;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.dao.Dao;
@@ -21,13 +21,13 @@ import java.sql.SQLException;
  */
 
 public class DbManager extends OrmLiteSqliteOpenHelper {
-    private static final String DATABASE_NAME = "base0";
+    private static final String DATABASE_NAME = "base2";
     private static final int DATABASE_VERSION = 1;
 
     private static DbManager _instance;
 
-    private Dao<User, String> daoUser = null;
-    private Dao<Link, String> daoLink = null;
+    private Dao<User, Integer> daoUser = null;
+    private Dao<Link, Integer> daoLink = null;
     private Dao<WebSite, String> daoWebSite = null;
 
     private DbManager(Context context) {
@@ -55,10 +55,6 @@ public class DbManager extends OrmLiteSqliteOpenHelper {
 
 
     private void init() { //String path
-        /*if (daoParameters == null) {
-            String statement = "PRAGMA temp_store_directory='" + path + "'";
-            getWritableDatabase().execSQL(statement);
-        }*/
         getDaoUser();
         getDaoLink();
         getDaoWebSite();
@@ -86,7 +82,7 @@ public class DbManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public Dao<User, String> getDaoUser() {
+    public Dao<User, Integer> getDaoUser() {
         if (daoUser == null) {
             try {
                 daoUser = DaoManager.createDao(connectionSource, User.class);
@@ -97,7 +93,7 @@ public class DbManager extends OrmLiteSqliteOpenHelper {
         return daoUser;
     }
 
-    public Dao<Link, String> getDaoLink() {
+    public Dao<Link, Integer> getDaoLink() {
         if (daoLink == null) {
             try {
                 daoLink = DaoManager.createDao(connectionSource, Link.class);

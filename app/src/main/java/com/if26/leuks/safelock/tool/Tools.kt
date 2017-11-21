@@ -1,4 +1,4 @@
-package com.if26.leuks.safelock.tools
+package com.if26.leuks.safelock.tool
 
 import android.support.design.widget.Snackbar
 import android.view.View

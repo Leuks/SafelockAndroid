@@ -1,4 +1,4 @@
-package com.if26.leuks.safelock.tools;
+package com.if26.leuks.safelock.tool;
 
 /**
  * Created by Leuks on 22/11/2016.

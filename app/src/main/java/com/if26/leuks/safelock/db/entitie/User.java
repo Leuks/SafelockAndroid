@@ -1,6 +1,8 @@
-package com.if26.leuks.safelock.db.entities;
+package com.if26.leuks.safelock.db.entitie;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
@@ -19,7 +21,6 @@ public class User implements Serializable {
     @DatabaseField(generatedId = true)
     int id;
 
-
     /**
      * @var login
      */
@@ -32,6 +33,13 @@ public class User implements Serializable {
     @DatabaseField
     private String password;
 
+    /**
+     * @var links
+     * ManyToOne
+     */
+    @ForeignCollectionField
+    private ForeignCollection<Link> links;
+
     public User() {
     }
 
@@ -39,13 +47,6 @@ public class User implements Serializable {
         this.login = login;
         this.password = password;
     }
-
-    /**
-     * @var link
-     * Link for website
-     */
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Link link;
 
     public String getLogin() {
         return login;
@@ -61,5 +62,21 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public ForeignCollection<Link> getLinks() {
+        return links;
+    }
+
+    public void setLinks(ForeignCollection<Link> links) {
+        this.links = links;
     }
 }

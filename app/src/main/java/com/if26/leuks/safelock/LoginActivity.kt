@@ -3,9 +3,10 @@ package com.if26.leuks.safelock
 import android.os.AsyncTask
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.if26.leuks.safelock.db.entities.User
-import com.if26.leuks.safelock.tasks.UserCheckTask
-import com.if26.leuks.safelock.tools.Tools
+import com.if26.leuks.safelock.db.entitie.User
+import com.if26.leuks.safelock.presenter.LoginActivityPresenter
+import com.if26.leuks.safelock.task.UserCheckTask
+import com.if26.leuks.safelock.tool.Tools
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -13,11 +14,14 @@ import kotlinx.android.synthetic.main.activity_login.*
  * status bar and navigation/system bar) with user interaction.
  */
 class LoginActivity : AppCompatActivity() {
+    private lateinit var _presenter : LoginActivityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_login)
+
+        _presenter = LoginActivityPresenter(this)
 
         val extras = intent.extras
         if (extras != null) {
@@ -38,8 +42,7 @@ class LoginActivity : AppCompatActivity() {
             val login = ed_login.text.trim().toString()
             val passwd = ed_password.text.trim().toString()
 
-            val task = UserCheckTask(this, findViewById(R.id.view_login), UserCheckTask.ACTION_CHECK_USER, login, passwd)
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+            _presenter.checkUser(login, passwd)
         }
     }
 }

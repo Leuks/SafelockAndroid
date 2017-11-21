@@ -1,4 +1,4 @@
-package com.if26.leuks.safelock.tasks;
+package com.if26.leuks.safelock.task;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -8,8 +8,8 @@ import android.view.View;
 import com.if26.leuks.safelock.ActivityManager;
 import com.if26.leuks.safelock.R;
 import com.if26.leuks.safelock.db.DbManager;
-import com.if26.leuks.safelock.db.entities.User;
-import com.if26.leuks.safelock.tools.Tools;
+import com.if26.leuks.safelock.db.entitie.User;
+import com.if26.leuks.safelock.tool.Tools;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -79,17 +79,18 @@ public class UserCheckTask extends AsyncTask<Object, Void, Boolean> {
         super.onPostExecute(value);
         _dialog.dismiss();
 
+        final User user = new User(_login, _password);
         switch (_action) {
             case 1:
                 if (value) {
-                    //GOTO PassWord list view
+                    ActivityManager.Companion.list(_activity, user);
                 } else {
                     Tools.Companion.showSnackbar(_view, _activity.getString(R.string.user_wrong));
                 }
                 break;
             case 0:
                 if (value) {
-                    final User user = new User(_login, _password);
+
 
                     Tools.Companion.startThread(new Runnable() {
                         @Override

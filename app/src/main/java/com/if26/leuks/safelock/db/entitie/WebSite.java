@@ -1,6 +1,9 @@
-package com.if26.leuks.safelock.db.entities;
+package com.if26.leuks.safelock.db.entitie;
 
+import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -19,12 +22,12 @@ public class WebSite {
     /**
      * @var image path
      */
-    @DatabaseField
-    private String image;
+    @DatabaseField(dataType = DataType.BYTE_ARRAY)
+    private byte[] image;
 
     /**
-     * @var link
-     * Link for website
+     * @var website
+     * OneToMany
      */
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     private Link link;
@@ -32,9 +35,9 @@ public class WebSite {
     public WebSite() {
     }
 
-    public WebSite(String name, String image) {
+    public WebSite(String name) {
         this.name = name;
-        this.image = image;
+        //api to get image
     }
 
 
@@ -46,11 +49,11 @@ public class WebSite {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
+    public Link getLink() {
+        return link;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setLink(Link link) {
+        this.link = link;
     }
 }
