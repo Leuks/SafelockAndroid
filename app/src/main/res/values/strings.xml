@@ -1,14 +1,18 @@
 <resources>
     <string name="app_name">Safelock</string>
     <string name="tv_login_login">Login</string>
+    <string name="tv_website_url">URL du site web</string>
     <string name="tv_login_password">Mot de passe</string>
     <string name="tv_connect">Connexion</string>
     <string name="tv_no_account">Créer un compte</string>
     <string name="tv_have_account">J\'ai déjà un compte</string>
     <string name="user_created">Utilisateur crée!</string>
     <string name="user_already_exists">Utilisateur existant</string>
-    <string name="user_wrong">Login / Mot de passe incorect</string>
+    <string name="user_wrong">Login / Mot de passe incorrect</string>
     <string name="title_activity_list">ListActivity</string>
+    <string name="empty_login">Le login ne peut être vide</string>
+    <string name="invalid_url">Url invalide</string>
+    <string name="invalid_password">Mot de passe incorrect</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -51,8 +51,10 @@ public class Link {
     public Link() {
     }
 
-    public Link(String password) {
+    public Link(String login, String password, User user) {
+        this.login = login;
         this.password = password;
+        this.user = user;
     }
 
 

@@ -29,7 +29,12 @@ class ActivityManager {
             val intent = Intent(activity, ListActivity::class.java)
             intent.putExtra("user", user);
             activity.startActivity(intent)
-            activity.finish()
+        }
+
+        fun new_website(activity: Activity, user : User){
+            val intent = Intent(activity, NewWebsiteActivity::class.java)
+            intent.putExtra("user", user);
+            activity.startActivity(intent)
         }
     }
 }

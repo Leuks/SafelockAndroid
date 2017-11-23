@@ -38,8 +38,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recycler_list.adapter = ListAdapter()
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            ActivityManager.new_website(this, _user)
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -106,6 +105,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         constructor(){
             _datas = ArrayList()
+            _presenter.getAllWebSites(_user, this)
         }
 
         fun setDatas(datas : ForeignCollection<Link>){

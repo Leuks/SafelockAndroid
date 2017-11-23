@@ -16,12 +16,12 @@ import java.util.List;
 /**
  * Created by leuks on 21/11/2017.
  */
-public class GetWebSiteTask extends AsyncTask<Void, ForeignCollection<Link>, ForeignCollection<Link>> {
+public class GetWebSitesTask extends AsyncTask<Void, ForeignCollection<Link>, ForeignCollection<Link>> {
     private User _user ;
     private ProgressDialog _dialog;
     private ListActivity.ListAdapter _adapter;
 
-    public GetWebSiteTask(User user, ListActivity.ListAdapter adapter, ListActivityPresenter presenter){
+    public GetWebSitesTask(User user, ListActivity.ListAdapter adapter, ListActivityPresenter presenter){
         _user = user;
         _dialog = new ProgressDialog(presenter.getActivity());
         _adapter = adapter;

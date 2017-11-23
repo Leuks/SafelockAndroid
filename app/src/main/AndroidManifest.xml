@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.if26.leuks.safelock">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -34,6 +36,10 @@
             android:name=".ListActivity"
             android:label="@string/title_activity_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".NewWebsiteActivity"
+            android:label="@string/title_activity_list"
+            android:theme="@style/AppTheme.New"></activity>
     </application>
 
 </manifest>

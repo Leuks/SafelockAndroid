@@ -10,6 +10,7 @@ import com.if26.leuks.safelock.R;
 import com.if26.leuks.safelock.db.DbManager;
 import com.if26.leuks.safelock.db.entitie.User;
 import com.if26.leuks.safelock.tool.Tools;
+import com.if26.leuks.safelock.tool.Tuple;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by leuks on 16/11/2017.
  */
 
-public class UserCheckTask extends AsyncTask<Object, Void, Boolean> {
+public class UserCheckTask extends AsyncTask<Object, Void, Tuple<Boolean, User>> {
     public static final int ACTION_CHECK_LOGIN = 0;
     public static final int ACTION_CHECK_USER = 1;
 
@@ -47,14 +48,14 @@ public class UserCheckTask extends AsyncTask<Object, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Object... args) {
+    protected Tuple<Boolean, User> doInBackground(Object... args) {
         switch (_action) {
             case 1:
                 try {
                     List<User> userlist = _manager.getDaoUser().queryForEq("login", _login);
                     for (User u : userlist) {
                         if (u.getPassword().equals(_password)) {
-                            return true;
+                            return new Tuple<>(true, u);
                         }
                     }
                 } catch (SQLException e) {
@@ -64,34 +65,34 @@ public class UserCheckTask extends AsyncTask<Object, Void, Boolean> {
             case 0:
                 try {
                     List<User> userlist = _manager.getDaoUser().queryForEq("login", _login);
-                    return !(userlist.size() > 0);
+                    return new Tuple<>(!(userlist.size() > 0), null);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
                 break;
 
         }
-        return false;
+        return new Tuple(false, null);
     }
 
     @Override
-    protected void onPostExecute(Boolean value) {
-        super.onPostExecute(value);
+    protected void onPostExecute(Tuple<Boolean, User> tuple) {
+        super.onPostExecute(tuple);
         _dialog.dismiss();
 
-        final User user = new User(_login, _password);
+
         switch (_action) {
             case 1:
-                if (value) {
+                if (tuple.getArg1()) {
+                    final User user = tuple.getArg2();
                     ActivityManager.Companion.list(_activity, user);
                 } else {
                     Tools.Companion.showSnackbar(_view, _activity.getString(R.string.user_wrong));
                 }
                 break;
             case 0:
-                if (value) {
-
-
+                if (tuple.getArg1()) {
+                    final User user = new User(_login, _password);
                     Tools.Companion.startThread(new Runnable() {
                         @Override
                         public void run() {

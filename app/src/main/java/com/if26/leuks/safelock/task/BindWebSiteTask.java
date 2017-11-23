@@ -1,8 +1,8 @@
 package com.if26.leuks.safelock.task;
 
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 
-import com.if26.leuks.safelock.ListActivity;
 import com.if26.leuks.safelock.db.DbManager;
 import com.if26.leuks.safelock.db.entitie.Link;
 import com.if26.leuks.safelock.ListActivity.ListAdapter.ViewHolder;
@@ -34,7 +34,7 @@ public class BindWebSiteTask extends AsyncTask<Void, Void, WebSite> {
 
         WebSite website = null;
         try {
-            website = (WebSite) manager.getDaoWebSite().queryForEq("link", _link);
+            website = manager.getDaoWebSite().queryForEq("link_id", _link).get(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -46,7 +46,7 @@ public class BindWebSiteTask extends AsyncTask<Void, Void, WebSite> {
     protected void onPostExecute(WebSite webSite) {
         super.onPostExecute(webSite);
         _holder.getTvLogin().setText(_link.getLogin());
-        _holder.getTvWebSite().setText(webSite.getName());
-        //_holder.getIvWebsiteLogo().setImageBitmap(webSite.getImage());
+        _holder.getTvWebSite().setText(webSite.getUrl());
+        _holder.getIvWebsiteLogo().setImageBitmap(BitmapFactory.decodeByteArray(webSite.getBitmap(), 0, webSite.getBitmap().length));
     }
 }

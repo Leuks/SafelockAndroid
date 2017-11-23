@@ -68,10 +68,6 @@ public class User implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public ForeignCollection<Link> getLinks() {
         return links;
     }

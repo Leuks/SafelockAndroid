@@ -6,7 +6,7 @@ import com.if26.leuks.safelock.ListActivity
 import com.if26.leuks.safelock.db.entitie.Link
 import com.if26.leuks.safelock.db.entitie.User
 import com.if26.leuks.safelock.task.BindWebSiteTask
-import com.if26.leuks.safelock.task.GetWebSiteTask
+import com.if26.leuks.safelock.task.GetWebSitesTask
 
 /**
  * Created by leuks on 21/11/2017.
@@ -14,7 +14,7 @@ import com.if26.leuks.safelock.task.GetWebSiteTask
 class ListActivityPresenter(private var _activity : ListActivity) {
 
     fun getAllWebSites(user : User, adapter : ListActivity.ListAdapter){
-        GetWebSiteTask(user, adapter, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+        GetWebSitesTask(user, adapter, this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
     fun bindHolderWithWebSite(holder : ViewHolder, link : Link){

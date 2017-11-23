@@ -21,7 +21,7 @@ import java.sql.SQLException;
  */
 
 public class DbManager extends OrmLiteSqliteOpenHelper {
-    private static final String DATABASE_NAME = "base2";
+    private static final String DATABASE_NAME = "base4";
     private static final int DATABASE_VERSION = 1;
 
     private static DbManager _instance;

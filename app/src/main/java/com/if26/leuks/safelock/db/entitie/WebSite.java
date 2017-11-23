@@ -1,10 +1,12 @@
 package com.if26.leuks.safelock.db.entitie;
 
-import com.j256.ormlite.dao.ForeignCollection;
+import android.graphics.Bitmap;
+
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by leuks on 16/11/2017.
@@ -14,16 +16,16 @@ import com.j256.ormlite.table.DatabaseTable;
 public class WebSite {
 
     /**
-     * @var name
+     * @var url
      */
     @DatabaseField(id = true)
-    private String name;
+    private String url;
 
     /**
-     * @var image path
+     * @var bitmap path
      */
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
-    private byte[] image;
+    private byte[] bitmap;
 
     /**
      * @var website
@@ -35,18 +37,21 @@ public class WebSite {
     public WebSite() {
     }
 
-    public WebSite(String name) {
-        this.name = name;
-        //api to get image
+    public WebSite(String name, Bitmap bitmap) {
+        this.url = name;
+
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        this.bitmap = stream.toByteArray();
     }
 
 
-    public String getName() {
-        return name;
+    public String getUrl() {
+        return url;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Link getLink() {
@@ -55,5 +60,9 @@ public class WebSite {
 
     public void setLink(Link link) {
         this.link = link;
+    }
+
+    public byte[] getBitmap() {
+        return bitmap;
     }
 }
