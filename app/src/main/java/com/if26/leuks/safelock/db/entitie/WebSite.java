@@ -22,29 +22,35 @@ public class WebSite {
     private String url;
 
     /**
+     * @var url
+     */
+    @DatabaseField
+    private String login;
+
+    /**
+     * @var url
+     */
+    @DatabaseField
+    private String password;
+
+    /**
      * @var bitmap path
      */
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     private byte[] bitmap;
 
-    /**
-     * @var website
-     * OneToMany
-     */
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Link link;
-
     public WebSite() {
     }
 
-    public WebSite(String name, Bitmap bitmap) {
+    public WebSite(String name, String login, String password, Bitmap bitmap) {
         this.url = name;
+        this.login = login;
+        this.password  = password;
 
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         this.bitmap = stream.toByteArray();
     }
-
 
     public String getUrl() {
         return url;
@@ -54,15 +60,27 @@ public class WebSite {
         this.url = url;
     }
 
-    public Link getLink() {
-        return link;
+    public String getLogin() {
+        return login;
     }
 
-    public void setLink(Link link) {
-        this.link = link;
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public byte[] getBitmap() {
         return bitmap;
+    }
+
+    public void setBitmap(byte[] bitmap) {
+        this.bitmap = bitmap;
     }
 }

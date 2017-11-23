@@ -1,7 +1,7 @@
 package com.if26.leuks.safelock
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -11,8 +11,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-import com.if26.leuks.safelock.db.entitie.Link
-import com.if26.leuks.safelock.db.entitie.User
 import com.if26.leuks.safelock.db.entitie.WebSite
 import com.if26.leuks.safelock.presenter.ListActivityPresenter
 import com.j256.ormlite.dao.ForeignCollection
@@ -23,14 +21,12 @@ import kotlinx.android.synthetic.main.content_list.*
 
 class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var _presenter : ListActivityPresenter
-    private lateinit var _user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
         setSupportActionBar(toolbar)
 
-        _user = intent.extras.get("user") as User
         _presenter = ListActivityPresenter(this)
 
         recycler_list.layoutManager = LinearLayoutManager(this)
@@ -38,7 +34,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         recycler_list.adapter = ListAdapter()
 
         fab.setOnClickListener { view ->
-            ActivityManager.new_website(this, _user)
+            ActivityManager.new_website(this)
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -101,14 +97,14 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     inner class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>{
-        var _datas : ArrayList<Link>
+        var _datas : ArrayList<WebSite>
 
         constructor(){
             _datas = ArrayList()
-            _presenter.getAllWebSites(_user, this)
+            _presenter.getAllWebSites(this)
         }
 
-        fun setDatas(datas : ForeignCollection<Link>){
+        fun setDatas(datas : ArrayList<WebSite>){
             _datas.addAll(datas)
             notifyDataSetChanged()
         }
@@ -120,7 +116,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-            (holder as ViewHolder).bindData(_datas.get(position))
+            (holder as ViewHolder).bindDatas(_datas.get(position))
         }
 
         override fun getItemCount(): Int {
@@ -132,8 +128,10 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             var tvLogin : TextView = v.findViewById(R.id.tv_login)
             var ivWebsiteLogo : ImageView= v.findViewById(R.id.iv_website_logo)
 
-            fun bindData(link : Link){
-                _presenter.bindHolderWithWebSite(this, link)
+            fun bindDatas(webSite: WebSite){
+                tvWebSite.setText(webSite.url)
+                tvLogin.setText(webSite.login)
+                ivWebsiteLogo.setImageBitmap(BitmapFactory.decodeByteArray(webSite.getBitmap(), 0, webSite.getBitmap().size));
             }
         }
     }

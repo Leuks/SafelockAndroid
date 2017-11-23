@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
-import com.if26.leuks.safelock.db.entitie.User
+import android.view.View
 import com.if26.leuks.safelock.presenter.NewWebsiteActivityPresenter
 import kotlinx.android.synthetic.main.activity_new_website.*
 
@@ -15,25 +15,31 @@ import kotlinx.android.synthetic.main.activity_new_website.*
  */
 class NewWebsiteActivity : AppCompatActivity() {
     private lateinit var _presenter : NewWebsiteActivityPresenter
-    private lateinit var _user : User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_new_website)
 
-        _user = intent.extras.get("user") as User
         _presenter = NewWebsiteActivityPresenter(this)
 
         val base = "https://www."
+
+        tv_url.setOnFocusChangeListener { v, hasFocus ->
+            if(!hasFocus){
+                val text = tv_url.text.trim().toString()
+                val splitted = text.split(".")
+                val website = splitted.get(1)
+                _presenter.getLogoAsync(website, iv_website_logo)
+            }
+        }
+
         var canChange = true
         tv_url.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
                 if(canChange) {
-                    val text = p0.toString()
-                    val splitted = text.split(".")
-                    val website = splitted.get(1)
-                    _presenter.getLogoAsync(website, iv_website_logo)
+
+
                 }
                 else{
                     tv_url.setText(base)
@@ -59,7 +65,7 @@ class NewWebsiteActivity : AppCompatActivity() {
             if (login.isNotEmpty()) {
                 if (Patterns.WEB_URL.matcher(url).matches()) {
                     if(passwd.isNotEmpty()){
-                        _presenter.addEntry(url, _user, login, passwd, bitmap)
+                        _presenter.addEntry(url, login, passwd, bitmap)
                     }
                     else{
                         tv_password.setError(getString(R.string.invalid_password))

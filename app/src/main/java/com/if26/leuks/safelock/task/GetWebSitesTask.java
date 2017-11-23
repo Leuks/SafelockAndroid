@@ -5,24 +5,21 @@ import android.os.AsyncTask;
 
 import com.if26.leuks.safelock.ListActivity;
 import com.if26.leuks.safelock.db.DbManager;
-import com.if26.leuks.safelock.db.entitie.Link;
-import com.if26.leuks.safelock.db.entitie.User;
+import com.if26.leuks.safelock.db.entitie.WebSite;
 import com.if26.leuks.safelock.presenter.ListActivityPresenter;
 import com.j256.ormlite.dao.ForeignCollection;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by leuks on 21/11/2017.
  */
-public class GetWebSitesTask extends AsyncTask<Void, ForeignCollection<Link>, ForeignCollection<Link>> {
-    private User _user ;
+public class GetWebSitesTask extends AsyncTask<Void, ArrayList<WebSite>, ArrayList<WebSite>> {
     private ProgressDialog _dialog;
     private ListActivity.ListAdapter _adapter;
 
-    public GetWebSitesTask(User user, ListActivity.ListAdapter adapter, ListActivityPresenter presenter){
-        _user = user;
+    public GetWebSitesTask(ListActivity.ListAdapter adapter, ListActivityPresenter presenter){
         _dialog = new ProgressDialog(presenter.getActivity());
         _adapter = adapter;
     }
@@ -34,27 +31,26 @@ public class GetWebSitesTask extends AsyncTask<Void, ForeignCollection<Link>, Fo
     }
 
     @Override
-    protected ForeignCollection<Link> doInBackground(Void... voids) {
+    protected ArrayList<WebSite> doInBackground(Void... voids) {
         DbManager manager = DbManager.getInstance();
-        ForeignCollection<Link> dbUserLinkList = null;
+        ArrayList<WebSite> websites = new ArrayList<>();
 
         try {
-            User dbUser = manager.getDaoUser().queryForId(_user.getId());
-            dbUserLinkList = dbUser.getLinks();
+            websites.addAll(manager.getDaoWebSite().queryForAll());
         } catch (SQLException e) {
             e.printStackTrace();
         } catch(NullPointerException e1){
             e1.printStackTrace();
         }
 
-        return dbUserLinkList;
+        return websites;
     }
 
     @Override
-    protected void onPostExecute(ForeignCollection<Link> dbUserLinkList) {
-        super.onPostExecute(dbUserLinkList);
+    protected void onPostExecute(ArrayList<WebSite> webSites) {
+        super.onPostExecute(webSites);
         _dialog.dismiss();
-        _adapter.setDatas(dbUserLinkList);
+        _adapter.setDatas(webSites);
     }
 }
 

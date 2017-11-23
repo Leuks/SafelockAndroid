@@ -12,7 +12,12 @@
     <string name="title_activity_list">ListActivity</string>
     <string name="empty_login">Le login ne peut être vide</string>
     <string name="invalid_url">Url invalide</string>
-    <string name="invalid_password">Mot de passe incorrect</string>
+    <string name="invalid_password">Code pin incorrect</string>
+    <string name="welcome">Bienvenue!</string>
+    <string name="hello">
+        Bienvenue sur notre application!\nPuisque c\'est votre première visite vous allez choisir un code PIN qui vous permettra de vous authentifier.
+    </string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

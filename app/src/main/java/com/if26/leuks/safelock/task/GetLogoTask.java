@@ -39,7 +39,8 @@ public class GetLogoTask extends AsyncTask<Void, Bitmap, Bitmap> {
         try {
             response = client.newCall(request).execute();
         } catch (IOException e) {
-            response.close();
+            if(response != null)
+                response.close();
             e.printStackTrace();
         }
 
@@ -47,8 +48,8 @@ public class GetLogoTask extends AsyncTask<Void, Bitmap, Bitmap> {
         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
 
         try {
-            response.close();
-            inputStream.close();
+            if(inputStream != null)
+                inputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

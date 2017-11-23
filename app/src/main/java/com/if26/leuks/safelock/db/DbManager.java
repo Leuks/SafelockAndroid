@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.if26.leuks.safelock.db.entitie.Link;
 import com.if26.leuks.safelock.db.entitie.User;
 import com.if26.leuks.safelock.db.entitie.WebSite;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -21,14 +20,13 @@ import java.sql.SQLException;
  */
 
 public class DbManager extends OrmLiteSqliteOpenHelper {
-    private static final String DATABASE_NAME = "base4";
+    private static final String DATABASE_NAME = "base5";
     private static final int DATABASE_VERSION = 1;
 
     private static DbManager _instance;
 
-    private Dao<User, Integer> daoUser = null;
-    private Dao<Link, Integer> daoLink = null;
     private Dao<WebSite, String> daoWebSite = null;
+    private Dao<User, Integer> daoUser = null;
 
     private DbManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -37,9 +35,8 @@ public class DbManager extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTableIfNotExists(connectionSource, User.class);
-            TableUtils.createTableIfNotExists(connectionSource, Link.class);
             TableUtils.createTableIfNotExists(connectionSource, WebSite.class);
+            TableUtils.createTableIfNotExists(connectionSource, User.class);
 
             Log.i(DbManager.class.getName(), "DBManager onCreate");
         } catch (SQLException e) {
@@ -55,8 +52,6 @@ public class DbManager extends OrmLiteSqliteOpenHelper {
 
 
     private void init() { //String path
-        getDaoUser();
-        getDaoLink();
         getDaoWebSite();
     }
 
@@ -82,27 +77,6 @@ public class DbManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-    public Dao<User, Integer> getDaoUser() {
-        if (daoUser == null) {
-            try {
-                daoUser = DaoManager.createDao(connectionSource, User.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return daoUser;
-    }
-
-    public Dao<Link, Integer> getDaoLink() {
-        if (daoLink == null) {
-            try {
-                daoLink = DaoManager.createDao(connectionSource, Link.class);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        return daoLink;
-    }
 
     public Dao<WebSite, String> getDaoWebSite() {
         if (daoWebSite == null) {
@@ -113,6 +87,17 @@ public class DbManager extends OrmLiteSqliteOpenHelper {
             }
         }
         return daoWebSite;
+    }
+
+    public Dao<User, Integer> getDaoUser() {
+        if (daoUser == null) {
+            try {
+                daoUser = DaoManager.createDao(connectionSource, User.class);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return daoUser;
     }
 
 }
