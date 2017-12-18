@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 
 import com.if26.leuks.safelock.ActivityManager;
 import com.if26.leuks.safelock.db.DbManager;
-import com.if26.leuks.safelock.db.entitie.Link;
 import com.if26.leuks.safelock.db.entitie.User;
 import com.if26.leuks.safelock.db.entitie.WebSite;
 
@@ -18,12 +17,12 @@ import java.util.List;
  * Created by leuks on 14/12/2017.
  */
 
-public class NewWebsiteActivityTask extends AsyncTask<Void,  ArrayList<WebSite>,  ArrayList<WebSite>> {
+public class NewWebsiteActivityTask extends AsyncTask<Void, ArrayList<WebSite>, ArrayList<WebSite>> {
     private ProgressDialog _dialog;
     private User _user;
     private Activity _activity;
 
-    public NewWebsiteActivityTask(Activity activity, User user){
+    public NewWebsiteActivityTask(Activity activity, User user) {
         _dialog = new ProgressDialog(activity);
         _user = user;
         _activity = activity;

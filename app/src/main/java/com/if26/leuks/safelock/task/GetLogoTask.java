@@ -20,7 +20,7 @@ public class GetLogoTask extends AsyncTask<Void, Bitmap, Bitmap> {
     private String _url;
     private ImageView _imageView;
 
-    public GetLogoTask(String url, ImageView imageView){
+    public GetLogoTask(String url, ImageView imageView) {
         _url = url;
         _imageView = imageView;
     }
@@ -28,7 +28,7 @@ public class GetLogoTask extends AsyncTask<Void, Bitmap, Bitmap> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-}
+    }
 
     @Override
     protected Bitmap doInBackground(Void... voids) {
@@ -59,7 +59,7 @@ public class GetLogoTask extends AsyncTask<Void, Bitmap, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
         super.onPostExecute(bitmap);
-        if(bitmap != null)
+        if (bitmap != null)
             _imageView.setImageBitmap(bitmap);
     }
 }

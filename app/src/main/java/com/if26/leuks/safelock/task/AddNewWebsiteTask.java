@@ -2,8 +2,6 @@ package com.if26.leuks.safelock.task;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 
 import com.if26.leuks.safelock.db.DbManager;
@@ -25,7 +23,7 @@ public class AddNewWebsiteTask extends AsyncTask<Void, Void, Void> {
     private String _login;
     private String _password;
 
-    public AddNewWebsiteTask(WebSite webSite, User user, String login, String password,  Activity activity){
+    public AddNewWebsiteTask(WebSite webSite, User user, String login, String password, Activity activity) {
         _webSite = webSite;
         _dialog = new ProgressDialog(activity);
         _activity = activity;

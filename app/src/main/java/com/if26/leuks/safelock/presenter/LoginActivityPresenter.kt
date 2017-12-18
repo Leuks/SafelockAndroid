@@ -8,9 +8,9 @@ import com.if26.leuks.safelock.task.UserCheckTask
 /**
  * Created by leuks on 21/11/2017.
  */
-class LoginActivityPresenter(private var _activity : LoginActivity) {
+class LoginActivityPresenter(private var _activity: LoginActivity) {
 
-    fun checkUser(login : String, passwd : String){
+    fun checkUser(login: String, passwd: String) {
         val task = UserCheckTask(_activity, _activity.findViewById(R.id.view_login), UserCheckTask.ACTION_CHECK_USER, login, passwd)
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }

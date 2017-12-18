@@ -1,11 +1,7 @@
 package com.if26.leuks.safelock.db.entitie;
 
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
-
-import java.util.ArrayList;
 
 /**
  * Created by leuks on 16/11/2017.

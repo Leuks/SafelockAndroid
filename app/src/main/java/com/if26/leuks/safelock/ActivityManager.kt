@@ -26,13 +26,13 @@ class ActivityManager {
             activity.finish()
         }
 
-        fun list(activity: Activity, user : User) {
+        fun list(activity: Activity, user: User) {
             val intent = Intent(activity, ListActivity::class.java)
             intent.putExtra("user", user);
             activity.startActivity(intent)
         }
 
-        fun new_website(activity: Activity, user : User, websites : ArrayList<WebSite>){
+        fun new_website(activity: Activity, user: User, websites: ArrayList<WebSite>) {
             val intent = Intent(activity, NewWebsiteActivity::class.java)
             intent.putExtra("user", user);
             intent.putExtra("websites", websites);

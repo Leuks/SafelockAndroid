@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 
 @DatabaseTable(tableName = "WebSite")
-public class WebSite implements Serializable{
+public class WebSite implements Serializable {
 
     /**
      * @var url

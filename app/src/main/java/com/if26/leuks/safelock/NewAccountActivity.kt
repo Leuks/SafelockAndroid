@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.activity_new_account.*
  * Created by leuks on 16/11/2017.
  */
 class NewAccountActivity : AppCompatActivity() {
-    private lateinit var _presenter : NewAccountActivityPresenter
+    private lateinit var _presenter: NewAccountActivityPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

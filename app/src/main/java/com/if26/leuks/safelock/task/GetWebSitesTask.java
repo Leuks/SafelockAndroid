@@ -11,17 +11,16 @@ import com.if26.leuks.safelock.presenter.ListActivityPresenter;
 import com.j256.ormlite.dao.ForeignCollection;
 
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by leuks on 21/11/2017.
  */
 public class GetWebSitesTask extends AsyncTask<Void, ForeignCollection<Link>, ForeignCollection<Link>> {
-    private User _user ;
+    private User _user;
     private ProgressDialog _dialog;
     private ListActivity.ListAdapter _adapter;
 
-    public GetWebSitesTask(User user, ListActivity.ListAdapter adapter, ListActivityPresenter presenter){
+    public GetWebSitesTask(User user, ListActivity.ListAdapter adapter, ListActivityPresenter presenter) {
         _user = user;
         _dialog = new ProgressDialog(presenter.getActivity());
         _adapter = adapter;
@@ -43,7 +42,7 @@ public class GetWebSitesTask extends AsyncTask<Void, ForeignCollection<Link>, Fo
             dbUserLinkList = dbUser.getLinks();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch(NullPointerException e1){
+        } catch (NullPointerException e1) {
             e1.printStackTrace();
         }
 
