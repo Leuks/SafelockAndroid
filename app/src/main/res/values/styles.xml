@@ -37,4 +37,11 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/subtext_color</item>
+        <item name="borderlessButtonStyle">@style/Widget.AppCompat.Button.Borderless.Colored</item>
+    </style>
+
 </resources>

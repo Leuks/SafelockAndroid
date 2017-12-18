@@ -28,7 +28,7 @@ class Tools {
 
         fun bindLogoFromWeb(wanted : String, imageView : ImageView){
             val url = "https://logo.clearbit.com/$wanted.com"
-            GetLogoTask(url, imageView).executeOnExecutor(AsyncTask.SERIAL_EXECUTOR)
+            GetLogoTask(url, imageView).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
         }
     }
 }

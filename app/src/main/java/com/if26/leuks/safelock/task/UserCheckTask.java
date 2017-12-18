@@ -50,7 +50,7 @@ public class UserCheckTask extends AsyncTask<Object, Void, Tuple<Boolean, User>>
     @Override
     protected Tuple<Boolean, User> doInBackground(Object... args) {
         switch (_action) {
-            case 1:
+            case ACTION_CHECK_USER:
                 try {
                     List<User> userlist = _manager.getDaoUser().queryForEq("login", _login);
                     for (User u : userlist) {
@@ -62,7 +62,7 @@ public class UserCheckTask extends AsyncTask<Object, Void, Tuple<Boolean, User>>
                     e.printStackTrace();
                 }
                 break;
-            case 0:
+            case ACTION_CHECK_LOGIN:
                 try {
                     List<User> userlist = _manager.getDaoUser().queryForEq("login", _login);
                     return new Tuple<>(!(userlist.size() > 0), null);
@@ -82,7 +82,7 @@ public class UserCheckTask extends AsyncTask<Object, Void, Tuple<Boolean, User>>
 
 
         switch (_action) {
-            case 1:
+            case ACTION_CHECK_USER:
                 if (tuple.getArg1()) {
                     final User user = tuple.getArg2();
                     ActivityManager.Companion.list(_activity, user);
@@ -90,7 +90,7 @@ public class UserCheckTask extends AsyncTask<Object, Void, Tuple<Boolean, User>>
                     Tools.Companion.showSnackbar(_view, _activity.getString(R.string.user_wrong));
                 }
                 break;
-            case 0:
+            case ACTION_CHECK_LOGIN:
                 if (tuple.getArg1()) {
                     final User user = new User(_login, _password);
                     Tools.Companion.startThread(new Runnable() {

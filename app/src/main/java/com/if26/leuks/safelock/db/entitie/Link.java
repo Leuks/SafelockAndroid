@@ -43,18 +43,19 @@ public class Link {
 
     /**
      * @var links
-     * ManyToOne
+     * OneToOne
      */
-    @ForeignCollectionField
-    private ForeignCollection<WebSite> websites;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    private WebSite website;
 
     public Link() {
     }
 
-    public Link(String login, String password, User user) {
+    public Link(String login, String password, User user, WebSite website) {
         this.login = login;
         this.password = password;
         this.user = user;
+        this.website = website;
     }
 
 
@@ -90,11 +91,11 @@ public class Link {
         this.login = login;
     }
 
-    public ForeignCollection<WebSite> getWebsites() {
-        return websites;
+    public WebSite getWebsite() {
+        return website;
     }
 
-    public void setWebsites(ForeignCollection<WebSite> websites) {
-        this.websites = websites;
+    public void setWebsite(WebSite website) {
+        this.website = website;
     }
 }

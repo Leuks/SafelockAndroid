@@ -7,13 +7,14 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 /**
  * Created by leuks on 16/11/2017.
  */
 
 @DatabaseTable(tableName = "WebSite")
-public class WebSite {
+public class WebSite implements Serializable{
 
     /**
      * @var url
@@ -26,13 +27,6 @@ public class WebSite {
      */
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     private byte[] bitmap;
-
-    /**
-     * @var website
-     * OneToMany
-     */
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    private Link link;
 
     public WebSite() {
     }
@@ -52,14 +46,6 @@ public class WebSite {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public Link getLink() {
-        return link;
-    }
-
-    public void setLink(Link link) {
-        this.link = link;
     }
 
     public byte[] getBitmap() {

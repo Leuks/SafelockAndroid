@@ -65,14 +65,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.41000003">
 
-        <android.support.design.widget.TextInputEditText
+        <AutoCompleteTextView
             android:id="@+id/tv_url"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/tv_website_url"
-            android:inputType="textUri"
-            android:text="https://www."
-            android:textColorLink="@android:color/black" />
+            android:layout_weight="1"
+            android:hint="Url"
+            android:inputType="textAutoComplete"
+            android:text="https://www." />
 
     </android.support.design.widget.TextInputLayout>
 

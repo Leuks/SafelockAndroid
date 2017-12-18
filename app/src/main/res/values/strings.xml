@@ -13,6 +13,10 @@
     <string name="empty_login">Le login ne peut être vide</string>
     <string name="invalid_url">Url invalide</string>
     <string name="invalid_password">Mot de passe incorrect</string>
+    <string name="deletion">Suppresion</string>
+    <string name="sure_message">Etes-vous sur?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
