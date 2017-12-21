@@ -1,12 +1,16 @@
 package com.if26.leuks.safelock
 
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
+import android.view.KeyEvent
+import android.view.View
 import android.widget.ArrayAdapter
+import com.if26.leuks.safelock.db.entitie.Link
 import com.if26.leuks.safelock.db.entitie.User
 import com.if26.leuks.safelock.db.entitie.WebSite
 import com.if26.leuks.safelock.presenter.NewWebsiteActivityPresenter
@@ -28,9 +32,19 @@ class NewWebsiteActivity : AppCompatActivity() {
 
         _user = intent.extras.get("user") as User
         _websites = intent.extras.get("websites") as ArrayList<WebSite>
-        _presenter = NewWebsiteActivityPresenter(this)
 
-        tv_login.setText(_user.login)
+        if(intent.extras.get("link") != null){
+            val link = intent.extras.get("link") as Link
+            tv_login.setText(link.login)
+            tv_url.setText(link.website.url)
+            tv_password.setText(link.password)
+            iv_website_logo.setImageBitmap(BitmapFactory.decodeByteArray(link.website.getBitmap(), 0, link.website.getBitmap().size))
+        }
+        else
+            tv_login.setText(_user.login)
+
+
+        _presenter = NewWebsiteActivityPresenter(this)
 
         val base = "https://www."
         var canChange = true
@@ -64,6 +78,16 @@ class NewWebsiteActivity : AppCompatActivity() {
                 _presenter.getLogoAsync(website, iv_website_logo)
             }
         })
+
+        tv_url.setOnKeyListener { v, keyCode, event ->
+            if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)){
+                tv_url.clearFocus()
+                tv_password.requestFocus()
+                true
+            }
+            else
+                false
+        }
 
         tv_url.setAdapter(ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, _websites.cut()))
 

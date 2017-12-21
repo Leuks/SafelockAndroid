@@ -208,6 +208,10 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             dialogInterface.dismiss()
         })
 
+        dialog.setNegativeButton("EDIT", { dialogInterface, i ->
+            _presenter.workForNewWebsiteActivity(_user, link)
+        })
+
         dialog.create().show()
     }
 

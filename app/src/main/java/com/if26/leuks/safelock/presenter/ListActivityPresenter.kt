@@ -26,7 +26,11 @@ class ListActivityPresenter(private var _activity: ListActivity) {
     }
 
     fun workForNewWebsiteActivity(user: User) {
-        NewWebsiteActivityTask(_activity, user).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+        NewWebsiteActivityTask(_activity, user, null).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
+    }
+
+    fun workForNewWebsiteActivity(user: User, link : Link?) {
+        NewWebsiteActivityTask(_activity, user, link).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
     }
 
     fun getActivity(): ListActivity {

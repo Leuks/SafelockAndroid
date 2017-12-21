@@ -2,6 +2,7 @@ package com.if26.leuks.safelock
 
 import android.app.Activity
 import android.content.Intent
+import com.if26.leuks.safelock.db.entitie.Link
 import com.if26.leuks.safelock.db.entitie.User
 import com.if26.leuks.safelock.db.entitie.WebSite
 
@@ -32,10 +33,11 @@ class ActivityManager {
             activity.startActivity(intent)
         }
 
-        fun new_website(activity: Activity, user: User, websites: ArrayList<WebSite>) {
+        fun new_website(activity: Activity, user: User, websites: ArrayList<WebSite>, link : Link?) {
             val intent = Intent(activity, NewWebsiteActivity::class.java)
-            intent.putExtra("user", user);
-            intent.putExtra("websites", websites);
+            intent.putExtra("user", user)
+            intent.putExtra("websites", websites)
+            intent.putExtra("link", link)
             activity.startActivity(intent)
         }
     }

@@ -1,11 +1,14 @@
 package com.if26.leuks.safelock.db.entitie;
 
+import com.if26.leuks.safelock.tool.Const;
+import com.if26.leuks.safelock.tool.CryptoManager;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.security.GeneralSecurityException;
 
 /**
  * Created by leuks on 16/11/2017.
@@ -45,7 +48,11 @@ public class User implements Serializable {
 
     public User(String login, String password) {
         this.login = login;
-        this.password = password;
+        try {
+            this.password = CryptoManager.Companion.encrypt(Const.Companion.getPASSWORD(), password);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getLogin() {
@@ -57,7 +64,12 @@ public class User implements Serializable {
     }
 
     public String getPassword() {
-        return password;
+        try {
+            return  CryptoManager.Companion.decrypt(Const.Companion.getPASSWORD(), password);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setPassword(String password) {

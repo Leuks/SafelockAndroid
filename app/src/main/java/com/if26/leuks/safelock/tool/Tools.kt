@@ -5,6 +5,10 @@ import android.support.design.widget.Snackbar
 import android.view.View
 import android.widget.ImageView
 import com.if26.leuks.safelock.task.GetLogoTask
+import java.nio.charset.Charset
+import javax.crypto.Cipher
+import javax.crypto.SecretKey
+import javax.crypto.spec.SecretKeySpec
 
 
 /**

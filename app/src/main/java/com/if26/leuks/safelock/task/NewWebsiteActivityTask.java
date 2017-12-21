@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 
 import com.if26.leuks.safelock.ActivityManager;
 import com.if26.leuks.safelock.db.DbManager;
+import com.if26.leuks.safelock.db.entitie.Link;
 import com.if26.leuks.safelock.db.entitie.User;
 import com.if26.leuks.safelock.db.entitie.WebSite;
 
@@ -21,13 +22,14 @@ public class NewWebsiteActivityTask extends AsyncTask<Void, ArrayList<WebSite>, 
     private ProgressDialog _dialog;
     private User _user;
     private Activity _activity;
+    private Link _link;
 
-    public NewWebsiteActivityTask(Activity activity, User user) {
+    public NewWebsiteActivityTask(Activity activity, User user, Link link) {
         _dialog = new ProgressDialog(activity);
         _user = user;
         _activity = activity;
+        _link = link;
     }
-
 
     @Override
     protected void onPreExecute() {
@@ -54,6 +56,6 @@ public class NewWebsiteActivityTask extends AsyncTask<Void, ArrayList<WebSite>, 
     protected void onPostExecute(ArrayList<WebSite> websites) {
         super.onPostExecute(websites);
         _dialog.dismiss();
-        ActivityManager.Companion.new_website(_activity, _user, websites);
+        ActivityManager.Companion.new_website(_activity, _user, websites, _link);
     }
 }

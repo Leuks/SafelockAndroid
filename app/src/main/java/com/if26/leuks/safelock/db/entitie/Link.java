@@ -1,14 +1,19 @@
 package com.if26.leuks.safelock.db.entitie;
 
+import com.if26.leuks.safelock.tool.Const;
+import com.if26.leuks.safelock.tool.CryptoManager;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.io.Serializable;
+import java.security.GeneralSecurityException;
 
 /**
  * Created by leuks on 16/11/2017.
  */
 
 @DatabaseTable(tableName = "Link")
-public class Link {
+public class Link implements Serializable{
 
     /**
      * @var id
@@ -49,14 +54,23 @@ public class Link {
 
     public Link(String login, String password, User user, WebSite website) {
         this.login = login;
-        this.password = password;
+        try {
+            this.password = CryptoManager.Companion.encrypt(Const.Companion.getPASSWORD() ,password);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
         this.user = user;
         this.website = website;
     }
 
 
     public String getPassword() {
-        return password;
+        try {
+            return CryptoManager.Companion.decrypt(Const.Companion.getPASSWORD() ,password);
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setPassword(String password) {
