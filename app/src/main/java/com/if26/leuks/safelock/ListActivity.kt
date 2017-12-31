@@ -22,11 +22,23 @@ import com.j256.ormlite.dao.ForeignCollection
 import kotlinx.android.synthetic.main.activity_list.*
 import kotlinx.android.synthetic.main.app_bar_list.*
 import kotlinx.android.synthetic.main.content_list.*
+import android.app.SearchManager
+import android.content.Context
+import android.support.v7.widget.SearchView
+import android.text.Html
+import android.widget.Filter
+import android.widget.Filterable
+import kotlinx.android.synthetic.main.nav_header_list.view.*
 
 
-class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class ListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private lateinit var _presenter: ListActivityPresenter
     private lateinit var _user: User
+    private lateinit var _goodDatas: ArrayList<Link>
+
+    init{
+        _goodDatas = ArrayList<Link>()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,16 +50,15 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         initRecycler()
 
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+
+        search.setSearchableInfo(searchManager.getSearchableInfo(componentName))
+        search.setSubmitButtonEnabled(true)
+        search.setOnQueryTextListener(this)
+
         fab.setOnClickListener { view ->
             _presenter.workForNewWebsiteActivity(_user);
         }
-
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        nav_view.setNavigationItemSelectedListener(this)
     }
 
     override fun onBackPressed() {
@@ -58,50 +69,22 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.list, menu)
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return onQueryTextChange(query)
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        val adapter = recycler_list.adapter as ListAdapter
+        if (newText != null) {
+            if(newText.isEmpty())
+                adapter.resetDatas()
+            else
+                adapter.filter.filter(newText)
+        }
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        when (item.itemId) {
-            R.id.action_settings -> return true
-            else -> return super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
-
-            }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_manage -> {
-
-            }
-            R.id.nav_share -> {
-
-            }
-            R.id.nav_send -> {
-
-            }
-        }
-
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
-    }
-
-    inner class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    inner class ListAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>, Filterable {
         var _datas: ArrayList<Link>
         lateinit var _lastLink: Link
 
@@ -109,9 +92,53 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             _datas = ArrayList()
         }
 
+        override fun getFilter(): Filter {
+            var filter = object : Filter(){
+                override fun performFiltering(p0: CharSequence?): FilterResults {
+                    val p1 = FilterResults()
+                    val filtered = ArrayList<Link>();
+                    var const = p0.toString().trim().toLowerCase()
+                    _goodDatas.forEach {
+                        var isGood = true
+                        for (i in 0..const.length-1){
+                            if(!it.website.url.toString().trim().toLowerCase().subSequence(12,it.website.url.length).contains(const.get(i))) {
+                                isGood = false
+                                break
+                            }
+                        }
+                        if(isGood)
+                            filtered.add(it)
+                    }
+                    p1.count = filtered.size
+                    p1.values = filtered
+
+                    return p1
+                }
+
+                override fun publishResults(constraint: CharSequence?, p1: FilterResults?) {
+                    setFileteredDatas(p1?.values as ArrayList<Link>)
+                }
+            }
+            return filter
+        }
+
         fun setDatas(datas: ForeignCollection<Link>) {
             _datas.clear()
+            _goodDatas.clear()
             _datas.addAll(datas)
+            _goodDatas.addAll(datas)
+            notifyDataSetChanged()
+        }
+
+        fun  setFileteredDatas(datas: ArrayList<Link>){
+            _datas.clear()
+            _datas.addAll(datas)
+            notifyDataSetChanged()
+        }
+
+        fun resetDatas(){
+            _datas.clear()
+            _datas.addAll(_goodDatas)
             notifyDataSetChanged()
         }
 
@@ -160,7 +187,28 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             lateinit var link: Link
 
             fun bindData(link: Link) {
-                tvWebSite.setText(link.website.url)
+                var url = link.website.url;
+                var newUrl = url.substring(0, 12)
+                val query = search.query.trim()
+                if(!query.isEmpty()) {
+                    for (i in 12..url.length - 5){
+                        var letter = url.get(i)
+                        if(query.contains(letter)){
+                            newUrl += "<font color='#E65100'>" + letter + "</font>"
+                        }
+                        else
+                            newUrl += letter
+                    }
+                    newUrl += url.substring(url.length-4, url.length)
+
+                    if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N)
+                        tvWebSite.setText(Html.fromHtml(newUrl, Html.FROM_HTML_MODE_LEGACY))
+                    else
+                        tvWebSite.setText(Html.fromHtml(newUrl))
+                }
+                else
+                    tvWebSite.setText(url)
+
                 tvLogin.setText(link.user.login)
                 ivWebsiteLogo.setImageBitmap(BitmapFactory.decodeByteArray(link.website.getBitmap(), 0, link.website.getBitmap().size));
                 this.link = link
@@ -172,6 +220,7 @@ class ListActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onResume()
         if (recycler_list.adapter != null) {
             _presenter.getAllWebSites(_user, recycler_list.adapter as ListAdapter)
+            search.setQuery("", false)
         }
     }
 
